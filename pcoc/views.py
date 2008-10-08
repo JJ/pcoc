@@ -1,6 +1,6 @@
 from google.appengine.ext import webapp
 import simplejson
-from models import Guy, Param, get_param
+from models import Guy, Param, get_param, init_ga_params
 
 class get_guy(webapp.RequestHandler):
     def get(self):
@@ -38,6 +38,26 @@ class get_guy(webapp.RequestHandler):
         self.response.headers['content-type'] = 'text/javascript'
         self.response.out.write(simplejson.dumps(masca))
 
+class init_ga(webapp.RequestHandler):
+    def get(self):
+        self.response.headers['content-type'] = 'text/plain'
+        self.response.out.write(init_ga_params())
+
+class start_ga(webapp.RequestHandler):
+    def get(self):
+        experiment_id = self.request.get("experiment_id")
+        param_experiment = get_param("experiment_id")
+        experiment_hash = {}
+        if experiment_id == param_experiment.value:
+            experiment_hash["experiment_id"] = experiment_id
+        else:
+            experiment_hash["experiment_id"] = 0
+
+        self.response.headers['content-type'] = 'text/javascript'
+        self.response.out.write(simplejson.dumps(experiment_hash))
+
+
+        
 if False:
     class start_ga(webapp.RequestHandler):
         def get(self):
