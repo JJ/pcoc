@@ -1,6 +1,6 @@
 from google.appengine.ext import webapp
 import simplejson
-from models import Guy, Param, get_param
+from models import Guy, Param, get_param, init_ga_params
 
 class get_guy(webapp.RequestHandler):
     def get(self):
@@ -8,6 +8,7 @@ class get_guy(webapp.RequestHandler):
         fitness = self.request.get("fitness")
         if not chromosome or not fitness:
             self.error(500)
+            return
         fitness = float(fitness)
 
         este_guy = Guy.all().filter("chromosome = ", chromosome).get()
@@ -37,6 +38,12 @@ class get_guy(webapp.RequestHandler):
 
         self.response.headers['content-type'] = 'text/javascript'
         self.response.out.write(simplejson.dumps(masca))
+
+class init_ga(webapp.RequestHandler):
+    def get(self):
+        output = init_ga_params()
+        self.response.headers['content-type'] = 'text/plain'
+        self.response.out.write(output)
 
 if False:
     class start_ga(webapp.RequestHandler):

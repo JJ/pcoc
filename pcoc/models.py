@@ -35,17 +35,23 @@ def init_ga_params(force=False):
         'target_fitness':  0,
     }
 
-    for (k,v) in init_values:
-        param = Params.filter('name =', k).get()
+    out = []
+    for (k,v) in init_values.items():
+        param = get_param(k)
         if not param:
-            param = Param()
-            param.name = k
-            param.value = v
+            out.append("Setting %s=%3.2f" % (k,float(v)))
+            param = Param(
+                name = k,
+                value = float(v))
             param.put()
         elif force and param:
-            param.value = v
+            out.append("Updating %s=%3.2f" % (k,float(v)))
+            param.value = float(v)
             param.put()
 
+    return "\n".join(out)
+            
+
 def get_param(name):
-    return Param.filter("name=",name).one()
+    return Param.all().filter("name=",name).get()
 
