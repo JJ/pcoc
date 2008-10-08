@@ -54,12 +54,6 @@ def init_ga_params(force=False):
 
     return "<br>\n".join(out)
 
-    return "\n".join(out)
-            
-
-    return "\n".join(out)
-            
-
 def get_param(name):
     return Param.all().filter("name =",name).get()
 
