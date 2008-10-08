@@ -8,6 +8,7 @@ class get_guy(webapp.RequestHandler):
         fitness = self.request.get("fitness")
         if not chromosome or not fitness:
             self.error(500)
+            return
         fitness = float(fitness)
 
         este_guy = Guy.all().filter("chromosome = ", chromosome).get()
@@ -40,8 +41,9 @@ class get_guy(webapp.RequestHandler):
 
 class init_ga(webapp.RequestHandler):
     def get(self):
+        output = init_ga_params()
         self.response.headers['content-type'] = 'text/plain'
-        self.response.out.write(init_ga_params())
+        self.response.out.write(output)
 
 class start_ga(webapp.RequestHandler):
     def get(self):
@@ -56,14 +58,8 @@ class start_ga(webapp.RequestHandler):
         self.response.headers['content-type'] = 'text/javascript'
         self.response.out.write(simplejson.dumps(experiment_hash))
 
-
         
 if False:
-    class start_ga(webapp.RequestHandler):
-        def get(self):
-            self.response.headers['content-type'] = 'text/plain'
-            self.response.out.write('hello, webapp world!')
-
     class end_ga(webapp.RequestHandler):
         def get(self):
             self.response.headers['content-type'] = 'text/plain'

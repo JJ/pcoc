@@ -37,7 +37,7 @@ def init_ga_params(force=False):
 
     out = []
     for (k,v) in init_values.items():
-        param = Param.all().filter('name =', k).get()
+        param = get_param(k)
         if not param:
             out.append("Setting %s=%3.3f" % (k,float(v)))
             param = Param(
@@ -53,6 +53,9 @@ def init_ga_params(force=False):
 
 
     return "<br>\n".join(out)
+
+    return "\n".join(out)
+            
 
 def get_param(name):
     return Param.all().filter("name =",name).get()
