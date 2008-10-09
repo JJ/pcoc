@@ -91,13 +91,13 @@ class get_info(webapp.RequestHandler):
         self.response.headers['content-type'] = 'text/javascript'
         self.response.out.write(simplejson.dumps(info))
 
+class reset_ga(webapp.RequestHandler):
+    def get(self):
+        self.response.headers['content-type'] = 'text/plain'
+        self.response.out.write('hello, webapp world!')
+
 if False:
     class manage_ga(webapp.RequestHandler):
-        def get(self):
-            self.response.headers['content-type'] = 'text/plain'
-            self.response.out.write('hello, webapp world!')
-
-    class reset_ga(webapp.RequestHandler):
         def get(self):
             self.response.headers['content-type'] = 'text/plain'
             self.response.out.write('hello, webapp world!')
