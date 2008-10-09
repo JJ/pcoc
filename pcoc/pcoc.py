@@ -1,6 +1,6 @@
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
-from views import get_guy, init_ga#, end_ga, get_info, manage_ga, reset_ga, start_ga, generate_ga_js
+from views import get_guy, init_ga, start_ga, end_ga#, get_info, manage_ga, reset_ga, start_ga, generate_ga_js
 
 application = webapp.WSGIApplication(
     [
@@ -12,6 +12,8 @@ application = webapp.WSGIApplication(
         #('/generate_ga_js', generate_ga_js),
         ('/get_guy', get_guy),
         ('/init_ga', init_ga),
+        ('/start_ga', start_ga),
+        ('/end_ga', end_ga),
     ],
     debug=True
 )

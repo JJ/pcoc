@@ -11,7 +11,7 @@ class get_guy(webapp.RequestHandler):
             return
         fitness = float(fitness)
 
-        este_guy = Guy.all().filter("chromosome = ", chromosome).get()
+        este_guy = Guy.all().filter("chromosome =", chromosome).get()
         if not este_guy:
             este_guy = Guy()
             este_guy.chromosome = chromosome
@@ -58,24 +58,46 @@ class start_ga(webapp.RequestHandler):
         self.response.headers['content-type'] = 'text/javascript'
         self.response.out.write(simplejson.dumps(experiment_hash))
 
-        
-if False:
-    class end_ga(webapp.RequestHandler):
-        def get(self):
-            self.response.headers['content-type'] = 'text/plain'
-            self.response.out.write('hello, webapp world!')
+class end_ga(webapp.RequestHandler):
+    def get(self):
+        experiment_id = self.request.get("experiment_id")
+        param_experiment = get_param("experiment_id")
+        experiment_hash = {}
+        if experiment_id == param_experiment.value:
+            experiment_hash["experiment_id"] = experiment_id
+        else:
+            experiment_hash["experiment_id"] = 0
 
+        self.response.headers['content-type'] = 'text/javascript'
+        self.response.out.write(simplejson.dumps(experiment_hash))
+
+        
+class get_info(webapp.RequestHandler):
+    def get(self):
+        chromosome = self.request.get("chromosome")
+        fitness = self.request.get("fitness")
+        if not chromosome or not fitness:
+            self.error(500)
+            return
+        fitness = float(fitness)
+        
+        masca_obj = Guy.all().order('-fitness').get()
+
+        info = {
+            'total_generados': get_param('total_generados').value,
+            'maximo_generados': get_param('maximo_generados').value,
+            'mejor': masca_obj,
+        }
+        self.response.headers['content-type'] = 'text/javascript'
+        self.response.out.write(simplejson.dumps(info))
+
+if False:
     class manage_ga(webapp.RequestHandler):
         def get(self):
             self.response.headers['content-type'] = 'text/plain'
             self.response.out.write('hello, webapp world!')
 
     class reset_ga(webapp.RequestHandler):
-        def get(self):
-            self.response.headers['content-type'] = 'text/plain'
-            self.response.out.write('hello, webapp world!')
-
-    class get_info(webapp.RequestHandler):
         def get(self):
             self.response.headers['content-type'] = 'text/plain'
             self.response.out.write('hello, webapp world!')

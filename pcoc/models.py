@@ -52,7 +52,7 @@ def init_ga_params(force=False):
             out.append("Current %s=%3.3f" % (k,float(v)))
 
 
-    return "<br>\n".join(out)
+    return "\n".join(out)
 
 def get_param(name):
     return Param.all().filter("name =",name).get()
